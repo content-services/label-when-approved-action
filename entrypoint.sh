@@ -43,6 +43,7 @@ number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 
 label_when_approved() {
   teamMembers="${REVIEW_LIST}"
+  echo "Approved reviewers: $teamMembers"
 
   # https://developer.github.com/v3/pulls/reviews/#list-reviews-on-a-pull-request
   body=$(curl -sSL -H "${AUTH_HEADER}" -H "${API_HEADER}" "${URI}/repos/${GITHUB_REPOSITORY}/pulls/${number}/reviews?per_page=100")
@@ -52,8 +53,10 @@ label_when_approved() {
     review="$(echo "$r" | base64 -d)"
     rState=$(echo "$review" | jq --raw-output '.state')
     reviewer=$(echo "$review" | jq --raw-output '.login')
+    echo $rState
     if [[ "$rState" == "APPROVED" ]]; then
       for tm in $teamMembers; do
+        echo "$tm == $reviewer"
         if [[ "$tm" == "$reviewer" ]]; then
           echo "Labeling pull request"
 
