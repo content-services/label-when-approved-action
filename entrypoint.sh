@@ -40,12 +40,12 @@ label_when_approved() {
 
   # https://developer.github.com/v3/pulls/reviews/#list-reviews-on-a-pull-request
   body=$(curl -sSL -H "${AUTH_HEADER}" -H "${API_HEADER}" "${URI}/repos/${GITHUB_REPOSITORY}/pulls/${number}/reviews?per_page=100")
-  reviews=$(echo "$body" | jq --raw-output '.[] | {state: .state, login: .user.login} | @base64')
+  reviews=$(echo "$body" | jq --raw-output '.[] | {state: .state, login: .login} | @base64')
   
   for r in $reviews; do
     review="$(echo "$r" | base64 -d)"
     rState=$(echo "$review" | jq --raw-output '.state')
-    reviewer=$(echo "$review" | jq --raw-output '.user.login')
+    reviewer=$(echo "$review" | jq --raw-output '.login')
     if [[ "$rState" == "APPROVED" ]]; then
       approvals=$((approvals+1))
     fi
