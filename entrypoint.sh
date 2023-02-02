@@ -27,7 +27,7 @@ if [[ -z "$addLabel" ]]; then
   exit 1
 fi
 
-if [[ -z "REVIEW_LIST" ]]; then
+if [[ -z "$REVIEW_LIST" ]]; then
   echo "Set the REVIEW_LIST env variable."
   exit 1
 fi
