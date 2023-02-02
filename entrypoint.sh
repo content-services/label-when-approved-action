@@ -42,7 +42,7 @@ state=$(jq --raw-output .review.state "$GITHUB_EVENT_PATH")
 number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 
 label_when_approved() {
-  teamMembers="${REVIEW_LIST}"
+  teamMembers="$REVIEW_LIST"
   echo "Approved reviewers: $teamMembers"
 
   # https://developer.github.com/v3/pulls/reviews/#list-reviews-on-a-pull-request
