@@ -27,15 +27,15 @@ if [[ -z "$addLabel" ]]; then
   exit 1
 fi
 
-if [[ -z "GH_ORG_READ_TOKEN" ]]; then
-  echo "Set the GH_ORG_READ_TOKEN env variable."
+if [[ -z "ORG_TOKEN" ]]; then
+  echo "Set the ORG_TOKEN env variable."
   exit 1
 fi
 
 URI="https://api.github.com"
 API_HEADER="Accept: application/vnd.github.v3+json"
 AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
-ORG_HEADER="Authorization: token ${GH_ORG_READ_TOKEN}"
+ORG_HEADER="Authorization: token ${ORG_TOKEN}"
 
 action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
 state=$(jq --raw-output .review.state "$GITHUB_EVENT_PATH")
