@@ -42,8 +42,8 @@ state=$(jq --raw-output .review.state "$GITHUB_EVENT_PATH")
 number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 
 label_when_approved() {
-  curl -sSL -H "${ORG_HEADER}" -H "${API_HEADER}" "https://api.github.com/organizations/102682140/team/7323464"
-  teamMembers=$(curl -sSL -H "${ORG_HEADER}" -H "${API_HEADER}" "https://api.github.com/organizations/102682140/team/7323464" | jq --raw-output ".[].login") #TODO make the team name configurable
+  curl -sSL -H "${ORG_HEADER}" -H "${API_HEADER}" "https://api.github.com/organizations/102682140/team/7323464/members"
+  teamMembers=$(curl -sSL -H "${ORG_HEADER}" -H "${API_HEADER}" "https://api.github.com/organizations/102682140/team/7323464/members" | jq --raw-output ".[].login") #TODO make the team name configurable
 
   # https://developer.github.com/v3/pulls/reviews/#list-reviews-on-a-pull-request
   body=$(curl -sSL -H "${AUTH_HEADER}" -H "${API_HEADER}" "${URI}/repos/${GITHUB_REPOSITORY}/pulls/${number}/reviews?per_page=100")
